@@ -19,8 +19,8 @@ public class GetUsers(ILogger<GetUsers> logger, DataContext context)
         {
             var users = await _context.Users.ToListAsync();
             if (users == null)
-                return null!;
-            return new OkObjectResult(users);
+				return new NotFoundResult();
+			return new OkObjectResult(users);
         } catch(Exception ex)
         {
             Console.WriteLine(ex);
