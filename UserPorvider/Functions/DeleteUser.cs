@@ -15,7 +15,7 @@ namespace UserPorvider.Functions
 
 		[Function("DeleteUser")]
 		public async Task<IActionResult> Run(
-			[HttpTrigger(AuthorizationLevel.Function, "delete", Route = "users/{userId}")] HttpRequestData req,
+			[HttpTrigger(AuthorizationLevel.Function, "delete", Route = "deleteUsers/{userId}")] HttpRequestData req,
 			string userId)
 		{
 			try

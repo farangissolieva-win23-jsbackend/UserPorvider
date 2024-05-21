@@ -21,7 +21,7 @@ namespace UserPorvider.Functions
 
 		[Function("UpdateUser")]
 		public async Task<IActionResult> Run(
-			[HttpTrigger(AuthorizationLevel.Function, "put", Route = "users/{userId}")] HttpRequestData req,
+			[HttpTrigger(AuthorizationLevel.Function, "put", Route = "updateUsers/{userId}")] HttpRequestData req,
 			string userId)
 		{
 			try
