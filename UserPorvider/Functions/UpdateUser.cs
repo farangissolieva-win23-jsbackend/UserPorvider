@@ -1,10 +1,12 @@
 using Data.Contexts;
+using Data.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Text.Json;
 
 namespace UserPorvider.Functions
 {
@@ -32,7 +34,9 @@ namespace UserPorvider.Functions
 					return new NotFoundResult();
 				}
 				var requestBody = await req.ReadAsStringAsync();
-								
+				var updatedUser = JsonSerializer.Deserialize<ApplicationUser>(requestBody!);
+
+				_context.Entry(user).CurrentValues.SetValues(updatedUser!);
 				await _context.SaveChangesAsync();
 
 				return new OkObjectResult(user);
