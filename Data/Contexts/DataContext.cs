@@ -9,6 +9,10 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
 {
     public DbSet<UserAddress> UserAddresses { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
-   
-    
+
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	{
+		optionsBuilder
+			.UseLazyLoadingProxies();
+	}
 }
