@@ -1,12 +1,11 @@
 using Data.Contexts;
-using Data.Entities;
+using Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Text.Json;
+using Newtonsoft.Json;
+
 
 namespace UserPorvider.Functions
 {
@@ -23,23 +22,34 @@ namespace UserPorvider.Functions
 
 		[Function("UpdateUser")]
 		public async Task<IActionResult> Run(
-			[HttpTrigger(AuthorizationLevel.Function, "put", Route = "updateUsers/{userId}")] HttpRequestData req,
+			[HttpTrigger(AuthorizationLevel.Function, "put", Route = "updateUsers/{userId}")] HttpRequest req,
 			string userId)
 		{
+			string body = null!;
 			try
 			{
+				body = await new StreamReader(req.Body).ReadToEndAsync();
 				var user = await _context.Users.FindAsync(userId);
 				if (user == null)
 				{
-					return new NotFoundResult();
+					return new BadRequestResult();
 				}
-				var requestBody = await req.ReadAsStringAsync();
-				var updatedUser = JsonSerializer.Deserialize<ApplicationUser>(requestBody!);
-
-				_context.Entry(user).CurrentValues.SetValues(updatedUser!);
-				await _context.SaveChangesAsync();
-
-				return new OkObjectResult(user);
+				if (body == null)
+				{
+					return new BadRequestResult();
+				}
+				else
+				{
+					var updatedUser = JsonConvert.DeserializeObject<User>(body);
+					if (updatedUser != null)
+					{
+						_context.Entry(user).CurrentValues.SetValues(updatedUser);
+						await _context.SaveChangesAsync();
+						return new OkResult();
+					}
+					return new BadRequestResult();
+				}
+	
 			}
 			catch (Exception ex)
 			{

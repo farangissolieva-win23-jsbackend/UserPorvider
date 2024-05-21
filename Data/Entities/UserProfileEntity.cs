@@ -1,6 +1,6 @@
 ﻿namespace Data.Entities;
 
-public class UserProfile
+public class UserProfileEntity
 {
 	public string Id { get; set; } = Guid.NewGuid().ToString();
 	public string FistName { get; set; } = null!;

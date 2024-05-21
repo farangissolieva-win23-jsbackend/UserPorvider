@@ -1,6 +1,6 @@
 ﻿namespace Data.Entities;
 
-public class UserAddress
+public class UserAddressEntity
 {
 	public string Id { get; set; } = Guid.NewGuid().ToString();
 	public string AddressLine_1 { get; set; } = null!;

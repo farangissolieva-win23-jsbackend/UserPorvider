@@ -7,8 +7,8 @@ namespace Data.Contexts;
 
 public class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
-    public DbSet<UserAddress> UserAddresses { get; set; }
-    public DbSet<UserProfile> UserProfiles { get; set; }
+    public DbSet<UserAddressEntity> UserAddresses { get; set; }
+    public DbSet<UserProfileEntity> UserProfiles { get; set; }
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
