@@ -8,4 +8,15 @@ public class UserAddressEntity
 	public string PostalCode { get; set; } = null!;
 	public string City { get; set; } = null!;
 
+    public static UserAddressEntity FromModel(Models.UserAddress userAddress)
+    {
+        return new UserAddressEntity
+        {
+            AddressLine_1 = userAddress.AddressLine_1!,
+            AddressLine_2 = userAddress.AddressLine_2,
+            PostalCode = userAddress.PostalCode!,
+            City = userAddress.City!
+        };
+    }
+
 }
